@@ -46,10 +46,10 @@ function Building({ color }: BuildingProps) {
 
   const handleMouseMove = useCallback((moveEvent: MouseEvent) => {
     if (ref.current != null) {
-      ref!.current!.style.transform =
-        "translateY(" + (moveEvent.clientY - 5) + "px)";
-      ref!.current!.style.transform +=
-        "translateX(" + (moveEvent.clientX - 5) + "px)";
+      ref.current.style.position = "absolute";
+      // perhaps make the click go through this so that we can interact with the board behind
+      ref.current.style.top = `${moveEvent.clientY}px`;
+      ref.current.style.left = `${moveEvent.clientX}px`;
     }
   }, []);
 
