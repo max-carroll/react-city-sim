@@ -1,4 +1,10 @@
-import React, { MouseEventHandler, useRef, useState } from "react";
+import React, {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Grid } from "@material-ui/core";
@@ -35,37 +41,33 @@ interface BuildingProps {
 
 function Building({ color }: BuildingProps) {
   const [selected, setSelected] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (moveEvent: MouseEvent) => {
-    if (ref != null) {
+  const handleMouseMove = useCallback((moveEvent: MouseEvent) => {
+    if (ref.current != null) {
       ref!.current!.style.transform =
         "translateY(" + (moveEvent.clientY - 5) + "px)";
       ref!.current!.style.transform +=
         "translateX(" + (moveEvent.clientX - 5) + "px)";
     }
-  };
+  }, []);
 
   const handleSnapToCursor: MouseEventHandler<HTMLDivElement> = (
     clickEvent
   ): void => {
-    console.log(clickEvent);
-    const node: HTMLDivElement = clickEvent.target as HTMLDivElement;
-
-    if (!selected) {
-      setSelected(true);
-      document.addEventListener("mousemove", handleMouseMove, false);
-      // node.addEventListener("onclick", handleMouseMove, false);
-
-      document.addEventListener("onclick", function () {
-        console.log("hellop");
-        document.removeEventListener("mousemove", handleMouseMove);
-      });
-    } else {
-      setSelected(false);
-      document.removeEventListener("mousemove", handleMouseMove);
-    }
+    setSelected((old) => !old);
   };
+
+  useEffect(() => {
+    if (selected) {
+      window.addEventListener("mousemove", handleMouseMove);
+    } else {
+      window.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, [selected, handleMouseMove]);
+
+  // const action = !selected ? handleSnapToCursor
 
   return (
     <div
