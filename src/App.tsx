@@ -62,14 +62,8 @@ const useBuildings = () => {
       x: elPos.x,
       y: elPos.y,
     });
-
-    // var timmy = <MovableBuilding color="blue" />;
-
-    // both methods work
     setElement(functionalComponent);
   };
-
-  const [state, setState] = useState<Coords>({ x: 0, y: 0 });
 
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (moveEvent) => {
     setElPos({ y: moveEvent.clientY, x: moveEvent.clientX });

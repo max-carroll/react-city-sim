@@ -1,5 +1,4 @@
 import * as React from "react";
-import { MouseEventHandler, useState } from "react";
 
 export interface BuildingProps {
   color?: string;
