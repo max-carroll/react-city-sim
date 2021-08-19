@@ -22,24 +22,20 @@ export function Building({ color, ref, onClick }: BuildingProps) {
   );
 }
 
-export function MovableBuilding({ color, onClick }: BuildingProps) {
-  interface Coords {
-    x: number;
-    y: number;
-  }
-  const [state, setState] = useState<Coords>({ x: 0, y: 0 });
+export interface MovableBuildingProps {
+  color: string;
+  x: number;
+  y: number;
+}
 
-  const handleMouseMove: MouseEventHandler<HTMLDivElement> = (moveEvent) => {
-    setState({ y: moveEvent.clientY, x: moveEvent.clientX });
-  };
-
-  var top: string = `${state.x}px`;
-  var left: string = `${state.y}px`;
+export function MovableBuilding({ color, x, y }: MovableBuildingProps) {
+  var top: string = `${y}px`;
+  var left: string = `${x}px`;
 
   return (
     <div
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
+      // onClick={onClick}
+      // onMouseMove={handleMouseMove}
       style={{
         height: 40,
         width: 40,
