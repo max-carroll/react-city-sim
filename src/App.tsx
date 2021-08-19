@@ -1,7 +1,7 @@
-import React, { createElement, FunctionComponentElement, MouseEventHandler, useState } from "react"
+import React, { MouseEventHandler, useState } from "react"
 
 import { Grid } from "@material-ui/core"
-import { Building, MovableBuilding, MovableBuildingProps } from "./Building"
+import { Building, MovableBuilding } from "./Building"
 import { Row } from "./Row"
 import { BuildingInfo, Coords } from "./Models"
 
@@ -33,7 +33,6 @@ function App() {
     <div className="App" onMouseMove={handleMouseMove}>
       <Grid container>
         {selectedBuildingInfo && <MovableBuilding x={elPos.x} y={elPos.y} buildingInfo={selectedBuildingInfo} />}
-
         <Grid item xs={4}>
           <Grid container direction="column">
             {buildings.map((b) => (
