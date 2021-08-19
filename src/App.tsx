@@ -2,19 +2,11 @@ import React, {
   createElement,
   FunctionComponentElement,
   MouseEventHandler,
-  RefObject,
-  useCallback,
   useState,
 } from "react";
 
 import { Grid } from "@material-ui/core";
-import {
-  Building,
-  BuildingProps,
-  MovableBuilding,
-  MovableBuildingProps,
-} from "./Building";
-import { useBuilding } from "./useBuilding";
+import { Building, MovableBuilding, MovableBuildingProps } from "./Building";
 
 function Cell() {
   const [active, setActive] = useState(false);
