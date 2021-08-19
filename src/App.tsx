@@ -2,9 +2,8 @@ import React, { MouseEventHandler, useState } from "react"
 
 import { Grid } from "@material-ui/core"
 import { Building, MovableBuilding } from "./Building"
-import { Row } from "./Row"
 import { BuildingInfo, Coords } from "./Models"
-import { Cell } from "./Cell"
+import { Land } from "./Land"
 
 const useGame = () => {
   const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
@@ -58,25 +57,6 @@ function App() {
   )
 }
 
-interface CellInfo {}
-
-interface LandProps {
-  landGrid: CellInfo[][]
-  cellOnClick: any
-}
-
-function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
-  return (
-    <>
-      {landGrid.map((row) => (
-        <Row>
-          {row.map((cell) => (
-            <Cell onClick={cellOnClick} />
-          ))}
-        </Row>
-      ))}
-    </>
-  )
-}
+export interface CellInfo {}
 
 export default App
