@@ -1,35 +1,40 @@
-import * as React from "react";
+import * as React from "react"
+import { BuildingInfo } from "./Models"
 
 export interface BuildingProps {
-  color?: string;
-  ref?: React.RefObject<HTMLDivElement>;
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  ref?: React.RefObject<HTMLDivElement>
+  onSelectBuilding: (buildingInfo: BuildingInfo) => void
+  buildingInfo: BuildingInfo
 }
 
-export function Building({ color, ref, onClick }: BuildingProps) {
+export function Building({ ref, onSelectBuilding, buildingInfo }: BuildingProps) {
+  const handleSelectBuilding = () => {
+    onSelectBuilding(buildingInfo)
+  }
+
   return (
     <div
       ref={ref}
-      onClick={onClick}
+      onClick={handleSelectBuilding}
       style={{
         height: 40,
         width: 40,
         border: "1px solid black",
-        background: color ?? "red",
+        background: buildingInfo.color ?? "red",
       }}
     ></div>
-  );
+  )
 }
 
 export interface MovableBuildingProps {
-  color: string;
-  x: number;
-  y: number;
+  buildingInfo: BuildingInfo
+  x: number
+  y: number
 }
 
-export function MovableBuilding({ color, x, y }: MovableBuildingProps) {
-  var top: string = `${y}px`;
-  var left: string = `${x}px`;
+export function MovableBuilding({ buildingInfo, x, y }: MovableBuildingProps) {
+  var top: string = `${y}px`
+  var left: string = `${x}px`
 
   return (
     <div
@@ -43,8 +48,8 @@ export function MovableBuilding({ color, x, y }: MovableBuildingProps) {
         top,
         left,
         border: "1px solid black",
-        background: color ?? "red",
+        background: buildingInfo.color ?? "red",
       }}
     ></div>
-  );
+  )
 }

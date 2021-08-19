@@ -1,63 +1,56 @@
-import React, {
-  createElement,
-  FunctionComponentElement,
-  MouseEventHandler,
-  useState,
-} from "react";
+import React, { createElement, FunctionComponentElement, MouseEventHandler, useState } from "react"
 
-import { Grid } from "@material-ui/core";
-import { Building, MovableBuilding, MovableBuildingProps } from "./Building";
-import { Row } from "./Row";
+import { Grid } from "@material-ui/core"
+import { Building, MovableBuilding, MovableBuildingProps } from "./Building"
+import { Row } from "./Row"
+import { BuildingInfo, Coords } from "./Models"
 
-interface Coords {
-  x: number;
-  y: number;
-}
-const useBuildings = () => {
-  const [element, setElement] =
-    useState<FunctionComponentElement<MovableBuildingProps>>();
+const useGame = () => {
+  const [element, setElement] = useState<FunctionComponentElement<MovableBuildingProps>>()
+  const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
 
-  const [elPos, setElPos] = useState<Coords>({ x: 0, y: 0 });
+  const [elPos, setElPos] = useState<Coords>({ x: 0, y: 0 })
 
-  const handleClick = () => {
-    console.log("hi guys");
+  const handleSelectBuilding = (buildingInfo: BuildingInfo) => {
+    console.log("hi guys")
     var functionalComponent = createElement(MovableBuilding, {
-      color: "blue",
+      buildingInfo,
       x: elPos.x,
       y: elPos.y,
-    });
-    setElement(functionalComponent);
-  };
+    })
+    setElement(functionalComponent)
+    setSelectedBuildingInfo(buildingInfo)
+  }
 
   const handleMouseMove: MouseEventHandler<HTMLDivElement> = (moveEvent) => {
-    setElPos({ y: moveEvent.clientY, x: moveEvent.clientX });
-  };
+    setElPos({ y: moveEvent.clientY, x: moveEvent.clientX })
+  }
 
-  const handleUnsetSelection = () => setElement(undefined);
+  const handleUnsetSelection = () => {
+    setElement(undefined)
+    setSelectedBuildingInfo(undefined)
+  }
 
-  return { handleClick, element, handleMouseMove, elPos, handleUnsetSelection };
-};
+  return { handleSelectBuilding, element, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo }
+}
 
 function App() {
-  var { handleClick, element, handleMouseMove, elPos, handleUnsetSelection } =
-    useBuildings();
+  var { handleSelectBuilding, element, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo } = useGame()
+
+  var buildings: Array<BuildingInfo> = [{ color: "blue" }, { color: "green" }, { color: "yellow" }]
 
   return (
     <div className="App" onMouseMove={handleMouseMove}>
       <Grid container>
-        {element && <MovableBuilding x={elPos.x} y={elPos.y} color="blue" />}
+        {selectedBuildingInfo && <MovableBuilding x={elPos.x} y={elPos.y} buildingInfo={selectedBuildingInfo} />}
 
         <Grid item xs={4}>
           <Grid container direction="column">
-            <Grid item>
-              <Building color="blue" onClick={handleClick} />
-            </Grid>
-            <Grid item>
-              <Building color="green" />
-            </Grid>
-            <Grid item>
-              <Building color="yellow" />
-            </Grid>
+            {buildings.map((b) => (
+              <Grid item>
+                <Building buildingInfo={b} onSelectBuilding={handleSelectBuilding} />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
         <Grid item xs={6}>
@@ -67,7 +60,7 @@ function App() {
         </Grid>
       </Grid>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
