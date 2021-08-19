@@ -6,10 +6,10 @@ import { CellInfo } from "./App"
 export function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
   return (
     <>
-      {landGrid.map((row) => (
+      {landGrid.map((row, i) => (
         <Row>
-          {row.map((cell) => (
-            <Cell onClick={cellOnClick} />
+          {row.map((cellInfo, j) => (
+            <Cell onClick={cellOnClick} rowIndex={i} columnIndex={j} landGrid={landGrid} cellInfo={cellInfo} />
           ))}
         </Row>
       ))}
