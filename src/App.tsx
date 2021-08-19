@@ -6,19 +6,10 @@ import { Row } from "./Row"
 import { BuildingInfo, Coords } from "./Models"
 
 const useGame = () => {
-  const [element, setElement] = useState<FunctionComponentElement<MovableBuildingProps>>()
   const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
-
   const [elPos, setElPos] = useState<Coords>({ x: 0, y: 0 })
 
   const handleSelectBuilding = (buildingInfo: BuildingInfo) => {
-    console.log("hi guys")
-    var functionalComponent = createElement(MovableBuilding, {
-      buildingInfo,
-      x: elPos.x,
-      y: elPos.y,
-    })
-    setElement(functionalComponent)
     setSelectedBuildingInfo(buildingInfo)
   }
 
@@ -27,15 +18,14 @@ const useGame = () => {
   }
 
   const handleUnsetSelection = () => {
-    setElement(undefined)
     setSelectedBuildingInfo(undefined)
   }
 
-  return { handleSelectBuilding, element, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo }
+  return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo }
 }
 
 function App() {
-  var { handleSelectBuilding, element, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo } = useGame()
+  var { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo } = useGame()
 
   var buildings: Array<BuildingInfo> = [{ color: "blue" }, { color: "green" }, { color: "yellow" }]
 
