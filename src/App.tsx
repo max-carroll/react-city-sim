@@ -51,9 +51,6 @@ function App() {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          {/* {[0, 1, 2, 3, 4, 5].map((i) => (
-            <Row cellOnClick={handleUnsetSelection} />
-          ))} */}
           {<Land landGrid={landGrid} cellOnClick={handleUnsetSelection} />}
         </Grid>
       </Grid>
@@ -72,7 +69,7 @@ function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
   return (
     <>
       {landGrid.map((row) => (
-        <Row cellOnClick={cellOnClick}>
+        <Row>
           {row.map((cell) => (
             <Cell onClick={cellOnClick} />
           ))}
