@@ -4,10 +4,16 @@ import { Grid } from "@material-ui/core"
 import { Building, MovableBuilding } from "./Building"
 import { Row } from "./Row"
 import { BuildingInfo, Coords } from "./Models"
+import { Cell } from "./Cell"
 
 const useGame = () => {
   const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
   const [elPos, setElPos] = useState<Coords>({ x: 0, y: 0 })
+
+  const initialGrid: CellInfo[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) =>
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((j) => ({} as CellInfo)),
+  )
+  const [landGrid, setLandGrid] = useState<CellInfo[][]>(initialGrid)
 
   const handleSelectBuilding = (buildingInfo: BuildingInfo) => {
     setSelectedBuildingInfo(buildingInfo)
@@ -21,11 +27,11 @@ const useGame = () => {
     setSelectedBuildingInfo(undefined)
   }
 
-  return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo }
+  return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid }
 }
 
 function App() {
-  var { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo } = useGame()
+  var { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid } = useGame()
 
   var buildings: Array<BuildingInfo> = [{ color: "blue" }, { color: "green" }, { color: "yellow" }]
 
@@ -45,12 +51,34 @@ function App() {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          {[0, 1, 2, 3, 4, 5].map((i) => (
+          {/* {[0, 1, 2, 3, 4, 5].map((i) => (
             <Row cellOnClick={handleUnsetSelection} />
-          ))}
+          ))} */}
+          {<Land landGrid={landGrid} cellOnClick={handleUnsetSelection} />}
         </Grid>
       </Grid>
     </div>
+  )
+}
+
+interface CellInfo {}
+
+interface LandProps {
+  landGrid: CellInfo[][]
+  cellOnClick: any
+}
+
+function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
+  return (
+    <>
+      {landGrid.map((row) => (
+        <Row cellOnClick={cellOnClick}>
+          {row.map((cell) => (
+            <Cell onClick={cellOnClick} />
+          ))}
+        </Row>
+      ))}
+    </>
   )
 }
 
