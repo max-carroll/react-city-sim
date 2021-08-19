@@ -8,7 +8,11 @@ import React, {
 import { Grid } from "@material-ui/core";
 import { Building, MovableBuilding, MovableBuildingProps } from "./Building";
 
-function Cell() {
+interface CellProps {
+  onClick: any;
+}
+
+function Cell({ onClick }: CellProps) {
   const [active, setActive] = useState(false);
   const handleMouseEnter = () => {
     setActive(true);
@@ -19,6 +23,7 @@ function Cell() {
       item
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       style={{
         border: "1px solid black",
         height: 20,
@@ -29,19 +34,18 @@ function Cell() {
   );
 }
 
-function Row() {
+interface RowProps {
+  cellOnClick: any;
+}
+
+function Row({ cellOnClick }: RowProps) {
   return (
     <Grid container>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
-      <Cell></Cell>
+      {Array(8)
+        .fill(0)
+        .map(() => (
+          <Cell onClick={cellOnClick} />
+        ))}
     </Grid>
   );
 }
@@ -69,11 +73,14 @@ const useBuildings = () => {
     setElPos({ y: moveEvent.clientY, x: moveEvent.clientX });
   };
 
-  return { handleClick, element, handleMouseMove, elPos };
+  const handleUnsetSelection = () => setElement(undefined);
+
+  return { handleClick, element, handleMouseMove, elPos, handleUnsetSelection };
 };
 
 function App() {
-  var { handleClick, element, handleMouseMove, elPos } = useBuildings();
+  var { handleClick, element, handleMouseMove, elPos, handleUnsetSelection } =
+    useBuildings();
 
   return (
     <div className="App" onMouseMove={handleMouseMove}>
@@ -95,7 +102,7 @@ function App() {
         </Grid>
         <Grid item xs={6}>
           {[0, 1, 2, 3, 4, 5].map((i) => (
-            <Row />
+            <Row cellOnClick={handleUnsetSelection} />
           ))}
         </Grid>
       </Grid>
