@@ -40,6 +40,7 @@ export function MovableBuilding({ color, x, y }: MovableBuildingProps) {
         height: 40,
         width: 40,
         position: "absolute",
+        pointerEvents: "none",
         top,
         left,
         border: "1px solid black",

@@ -17,10 +17,22 @@ import {
 import { useBuilding } from "./useBuilding";
 
 function Cell() {
+  const [active, setActive] = useState(false);
+  const handleMouseEnter = () => {
+    setActive(true);
+  };
+  const handleMouseLeave = () => setActive(false);
   return (
     <Grid
       item
-      style={{ border: "1px solid black", height: 20, width: 20 }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        border: "1px solid black",
+        height: 20,
+        width: 20,
+        backgroundColor: active ? "grey" : "initial",
+      }}
     ></Grid>
   );
 }
@@ -80,7 +92,7 @@ function App() {
   return (
     <div className="App" onMouseMove={handleMouseMove}>
       <Grid container>
-        <MovableBuilding x={elPos.x} y={elPos.y} color="blue" />
+        {element && <MovableBuilding x={elPos.x} y={elPos.y} color="blue" />}
 
         <Grid item xs={4}>
           <Grid container direction="column">
