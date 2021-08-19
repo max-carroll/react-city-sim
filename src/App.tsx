@@ -7,48 +7,8 @@ import React, {
 
 import { Grid } from "@material-ui/core";
 import { Building, MovableBuilding, MovableBuildingProps } from "./Building";
+import { Row } from "./Row";
 
-interface CellProps {
-  onClick: any;
-}
-
-function Cell({ onClick }: CellProps) {
-  const [active, setActive] = useState(false);
-  const handleMouseEnter = () => {
-    setActive(true);
-  };
-  const handleMouseLeave = () => setActive(false);
-  return (
-    <Grid
-      item
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick}
-      style={{
-        border: "1px solid black",
-        height: 20,
-        width: 20,
-        backgroundColor: active ? "grey" : "initial",
-      }}
-    ></Grid>
-  );
-}
-
-interface RowProps {
-  cellOnClick: any;
-}
-
-function Row({ cellOnClick }: RowProps) {
-  return (
-    <Grid container>
-      {Array(8)
-        .fill(0)
-        .map(() => (
-          <Cell onClick={cellOnClick} />
-        ))}
-    </Grid>
-  );
-}
 interface Coords {
   x: number;
   y: number;
