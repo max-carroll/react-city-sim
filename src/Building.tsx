@@ -11,7 +11,7 @@ interface BuildingProps {
   color?: string;
 }
 
-export function Building({ color }: BuildingProps) {
+const useBuilding = () => {
   const [selected, setSelected] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -33,13 +33,19 @@ export function Building({ color }: BuildingProps) {
 
   useEffect(() => {
     if (selected) {
+      ref.current?.cloneNode();
       window.addEventListener("mousemove", handleMouseMove);
     } else {
       window.removeEventListener("mousemove", handleMouseMove);
     }
   }, [selected, handleMouseMove]);
 
-  // const action = !selected ? handleSnapToCursor
+  return { ref, handleSnapToCursor };
+};
+
+export function Building({ color }: BuildingProps) {
+  const { ref, handleSnapToCursor } = useBuilding();
+
   return (
     <div
       ref={ref}
