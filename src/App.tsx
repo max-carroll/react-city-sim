@@ -29,8 +29,10 @@ function App() {
 
   var buildings: Array<BuildingInfo> = [{ color: "blue" }, { color: "green" }, { color: "yellow" }]
 
+  const handleClickApp = !!selectedBuildingInfo ? handleUnsetSelection : undefined
+
   return (
-    <div className="App" onMouseMove={handleMouseMove}>
+    <div className="App" onMouseMove={handleMouseMove} onClick={handleClickApp}>
       <Grid container>
         {selectedBuildingInfo && <MovableBuilding x={elPos.x} y={elPos.y} buildingInfo={selectedBuildingInfo} />}
         <Grid item xs={4}>
