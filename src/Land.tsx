@@ -7,9 +7,9 @@ export function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
   return (
     <>
       {landGrid.map((row, i) => (
-        <Row>
+        <Row key={i}>
           {row.map((cellInfo, j) => (
-            <Cell onClick={cellOnClick} rowIndex={i} columnIndex={j} landGrid={landGrid} cellInfo={cellInfo} />
+            <Cell key={j} onClick={cellOnClick} rowIndex={i} columnIndex={j} landGrid={landGrid} cellInfo={cellInfo} />
           ))}
         </Row>
       ))}
