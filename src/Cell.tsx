@@ -55,6 +55,9 @@ export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLa
     currentCell.occupied = true
     currentCell.buildingInfo = buildingInfo
 
+    // TODO: Set the adjacent squares to occupied
+    // TODO: Handle removal of a building
+
     setLandGrid(newLandGrid)
   }
 
