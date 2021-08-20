@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react"
 import { Grid } from "@material-ui/core"
 import { CellInfo } from "./App"
 import { BuildingInfo } from "./Models"
+import { PlacedBuilding } from "./Building"
 
 export interface CellProps {
   onClick: any
@@ -73,6 +74,8 @@ export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLa
         width: 20,
         backgroundColor: color,
       }}
-    ></Grid>
+    >
+      {cellInfo.buildingInfo && <PlacedBuilding buildingInfo={cellInfo.buildingInfo} />}
+    </Grid>
   )
 }

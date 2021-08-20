@@ -26,6 +26,24 @@ export function Building({ ref, onSelectBuilding, buildingInfo }: BuildingProps)
   )
 }
 
+interface PlacedBuildingProps {
+  buildingInfo: BuildingInfo
+}
+
+export function PlacedBuilding({ buildingInfo }: PlacedBuildingProps) {
+  return (
+    <div
+      style={{
+        height: 40,
+        width: 40,
+        border: "1px solid black",
+        position: "absolute",
+        background: buildingInfo.color,
+      }}
+    ></div>
+  )
+}
+
 export interface MovableBuildingProps {
   buildingInfo: BuildingInfo
   x: number
