@@ -52,10 +52,16 @@ export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLa
     const newLandGrid = [...landGrid]
 
     let currentCell = landGrid[rowIndex][columnIndex]
-    currentCell.occupied = true
-    currentCell.buildingInfo = buildingInfo
 
-    // TODO: Set the adjacent squares to occupied
+    currentCell.buildingInfo = buildingInfo // set the building info in the top left corner of range
+
+    // update andjacent cells to be occupied
+    for (let x = 0; x < buildingInfo.size; x++) {
+      for (let y = 0; y < buildingInfo.size; y++) {
+        landGrid[rowIndex + x][columnIndex + y].occupied = true
+      }
+    }
+
     // TODO: Handle removal of a building
 
     setLandGrid(newLandGrid)
