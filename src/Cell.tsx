@@ -27,10 +27,18 @@ export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLa
       return
     }
 
-    // check theres space on the grid
-    if (cellInfo.occupied) {
-      handleNoSpace()
-      return
+    // check sufficient space to allow for building
+    for (let x = 0; x < building.size; x++) {
+      for (let y = 0; y < building.size; y++) {
+        if (
+          !landGrid[rowIndex + x] ||
+          !landGrid[rowIndex + x][columnIndex + y] ||
+          landGrid[rowIndex + x][columnIndex + y].occupied
+        ) {
+          handleNoSpace()
+          return
+        }
+      }
     }
 
     handleAddBuilding(building)
