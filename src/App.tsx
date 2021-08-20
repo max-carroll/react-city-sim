@@ -26,13 +26,18 @@ const useGame = () => {
     setSelectedBuildingInfo(undefined)
   }
 
-  return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid }
+  return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid, setLandGrid }
 }
 
 function App() {
-  var { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid } = useGame()
+  var { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid, setLandGrid } =
+    useGame()
 
-  var buildings: Array<BuildingInfo> = [{ color: "blue" }, { color: "green" }, { color: "yellow" }]
+  var buildings: Array<BuildingInfo> = [
+    { color: "blue", size: 2 },
+    { color: "green", size: 2 },
+    { color: "yellow", size: 2 },
+  ]
 
   const handleClickApp = !!selectedBuildingInfo ? handleUnsetSelection : undefined
 
@@ -50,7 +55,7 @@ function App() {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          {<Land landGrid={landGrid} cellOnClick={handleUnsetSelection} />}
+          {<Land landGrid={landGrid} cellOnClick={handleUnsetSelection} setLandGrid={setLandGrid} />}
         </Grid>
       </Grid>
     </div>

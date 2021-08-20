@@ -5,4 +5,5 @@ export interface Coords {
 
 export interface BuildingInfo {
   color: string
+  size: number
 }

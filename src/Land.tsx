@@ -1,15 +1,23 @@
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { Row } from "./Row"
 import { Cell } from "./Cell"
 import { CellInfo } from "./App"
 
-export function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
+export function Land({ landGrid, cellOnClick, setLandGrid }: LandProps): JSX.Element {
   return (
     <>
       {landGrid.map((row, i) => (
         <Row key={i}>
           {row.map((cellInfo, j) => (
-            <Cell key={j} onClick={cellOnClick} rowIndex={i} columnIndex={j} landGrid={landGrid} cellInfo={cellInfo} />
+            <Cell
+              key={j}
+              onClick={cellOnClick}
+              rowIndex={i}
+              columnIndex={j}
+              landGrid={landGrid}
+              cellInfo={cellInfo}
+              setLandGrid={setLandGrid}
+            />
           ))}
         </Row>
       ))}
@@ -19,4 +27,5 @@ export function Land({ landGrid, cellOnClick }: LandProps): JSX.Element {
 interface LandProps {
   landGrid: CellInfo[][]
   cellOnClick: any
+  setLandGrid: Dispatch<SetStateAction<CellInfo[][]>>
 }

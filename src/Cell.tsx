@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import { Grid } from "@material-ui/core"
 import { CellInfo } from "./App"
 
@@ -8,9 +8,10 @@ export interface CellProps {
   columnIndex: number
   landGrid: CellInfo[][]
   cellInfo: CellInfo
+  setLandGrid: Dispatch<SetStateAction<CellInfo[][]>>
 }
 
-export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo }: CellProps) {
+export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLandGrid }: CellProps) {
   const [active, setActive] = useState(false)
   const handleMouseEnter = () => {
     setActive(true)
