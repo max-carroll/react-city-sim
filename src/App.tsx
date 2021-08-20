@@ -22,8 +22,10 @@ const useGame = () => {
     setElPos({ y: moveEvent.clientY, x: moveEvent.clientX })
   }
 
-  const handleUnsetSelection = () => {
+  const handleUnsetSelection = (): BuildingInfo | undefined => {
+    var building = selectedBuildingInfo
     setSelectedBuildingInfo(undefined)
+    return building
   }
 
   return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid, setLandGrid }
@@ -62,6 +64,9 @@ function App() {
   )
 }
 
-export interface CellInfo {}
+export interface CellInfo {
+  occupied: boolean
+  buildingInfo?: BuildingInfo
+}
 
 export default App
