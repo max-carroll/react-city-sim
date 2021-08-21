@@ -1,4 +1,5 @@
 import * as React from "react"
+import { CELL_SIZE } from "./App"
 import { BuildingInfo } from "./Models"
 
 export interface BuildingProps {
@@ -19,8 +20,8 @@ export function Building({ ref, onSelectBuilding, buildingInfo }: BuildingProps)
         ref={ref}
         onClick={handleSelectBuilding}
         style={{
-          height: 20,
-          width: 20,
+          height: CELL_SIZE,
+          width: CELL_SIZE,
           border: "1px solid black",
           background: buildingInfo.color ?? "red",
           display: "flex",
@@ -42,8 +43,8 @@ export function PlacedBuilding({ buildingInfo }: PlacedBuildingProps) {
   return (
     <div
       style={{
-        height: 40,
-        width: 40,
+        height: buildingInfo.size * CELL_SIZE,
+        width: buildingInfo.size * CELL_SIZE,
         border: "1px solid black",
         position: "absolute",
         background: buildingInfo.color,
@@ -72,8 +73,8 @@ export function MovableBuilding({ buildingInfo, x, y }: MovableBuildingProps) {
       // onClick={onClick}
       // onMouseMove={handleMouseMove}
       style={{
-        height: 40,
-        width: 40,
+        height: buildingInfo.size * CELL_SIZE,
+        width: buildingInfo.size * CELL_SIZE,
         position: "absolute",
         pointerEvents: "none",
         top,

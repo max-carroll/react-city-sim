@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react"
 import { Grid } from "@material-ui/core"
-import { CellInfo } from "./App"
+import { CellInfo, CELL_SIZE } from "./App"
 import { BuildingInfo } from "./Models"
 import { PlacedBuilding } from "./Building"
 
@@ -87,8 +87,8 @@ export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLa
       onClick={handleClick}
       style={{
         border: "1px solid black",
-        height: 20,
-        width: 20,
+        height: CELL_SIZE,
+        width: CELL_SIZE,
         backgroundColor: color,
       }}
     >

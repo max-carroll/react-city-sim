@@ -1,9 +1,27 @@
 import React, { MouseEventHandler, useState } from "react"
 
-import { Grid } from "@material-ui/core"
+import { Grid, Typography } from "@material-ui/core"
 import { Building, MovableBuilding } from "./Building"
 import { BuildingInfo, Coords, Resources } from "./Models"
 import { Land } from "./Land"
+
+function canAfford(playerReources: Resources, cost: Resources): boolean {
+  for (var key of Object.keys(cost) as Array<keyof Resources>) {
+    if (cost[key] && playerReources[key]! < cost[key]!) {
+      return false
+    }
+  }
+  return true
+}
+
+function subtractCost(playerReources: Resources, cost: Resources): Resources {
+  let result: Resources = {
+    wood: playerReources.wood! - (cost.wood ?? 0),
+    money: playerReources.money! - (cost.money ?? 0),
+    iron: playerReources.iron! - (cost.iron ?? 0),
+  }
+  return result
+}
 
 const useGame = () => {
   const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
@@ -28,7 +46,7 @@ const useGame = () => {
     setElPos({ y: moveEvent.clientY, x: moveEvent.clientX })
   }
 
-  const handleUnsetSelection = (): BuildingInfo | undefined => {
+  const handlePlaceBuilding = (): BuildingInfo | undefined => {
     var building = selectedBuildingInfo
     setSelectedBuildingInfo(undefined)
     return building
@@ -38,7 +56,7 @@ const useGame = () => {
     handleSelectBuilding,
     handleMouseMove,
     elPos,
-    handleUnsetSelection,
+    handlePlaceBuilding,
     selectedBuildingInfo,
     landGrid,
     setLandGrid,
@@ -47,18 +65,29 @@ const useGame = () => {
   }
 }
 
+export const CELL_SIZE = 50
+
 function App() {
-  var { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid, setLandGrid } =
-    useGame()
+  var {
+    handleSelectBuilding,
+    handleMouseMove,
+    elPos,
+    handlePlaceBuilding,
+    selectedBuildingInfo,
+    landGrid,
+    setLandGrid,
+    resources,
+  } = useGame()
 
   var buildings: Array<BuildingInfo> = [
     { name: "farm", icon: "🌽", color: "blue", size: 2, cost: { money: 100, wood: 30 } },
-    { name: "power plant", icon: "⚛", color: "green", size: 2, cost: { money: 200, iron: 50 } },
+    { name: "power plant", icon: "⚛", color: "green", size: 1, cost: { money: 200, iron: 50 } },
     { name: "iron mine", icon: "🔧", color: "yellow", size: 2, cost: { money: 300, iron: 20 } },
     { name: "university", icon: "🧪", color: "yellow", size: 2, cost: { money: 300, iron: 20 } },
+    { name: "house", icon: "🏠", color: "yellow", size: 1, cost: { money: 300, iron: 20 } },
   ]
 
-  const handleClickApp = !!selectedBuildingInfo ? handleUnsetSelection : undefined
+  const handleClickApp = !!selectedBuildingInfo ? handlePlaceBuilding : undefined
 
   return (
     <div className="App" onMouseMove={handleMouseMove} onClick={handleClickApp}>
@@ -66,6 +95,7 @@ function App() {
         {selectedBuildingInfo && <MovableBuilding x={elPos.x} y={elPos.y} buildingInfo={selectedBuildingInfo} />}
         <Grid item xs={4}>
           <Grid container direction="column">
+            <Grid item>Buildings</Grid>
             {buildings.map((b) => (
               <Grid item>
                 <Building buildingInfo={b} onSelectBuilding={handleSelectBuilding} />
@@ -74,7 +104,15 @@ function App() {
           </Grid>
         </Grid>
         <Grid item xs={6}>
-          {<Land landGrid={landGrid} cellOnClick={handleUnsetSelection} setLandGrid={setLandGrid} />}
+          {<Land landGrid={landGrid} cellOnClick={handlePlaceBuilding} setLandGrid={setLandGrid} />}
+        </Grid>
+        <Grid item xs={2}>
+          <Grid container direction="column">
+            <Grid item>Resources</Grid>
+            <Grid item>Money: {resources.money}</Grid>
+            <Grid item>Wood: {resources.wood}</Grid>
+            <Grid item>Iron: {resources.iron}</Grid>
+          </Grid>
         </Grid>
       </Grid>
     </div>
