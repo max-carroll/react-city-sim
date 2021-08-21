@@ -4,6 +4,7 @@ import { Grid } from "@material-ui/core"
 import { Building, MovableBuilding } from "./Building"
 import { BuildingInfo, Coords, Resources } from "./Models"
 import { Land } from "./Land"
+import { isSpaceForBuilding } from "./logic"
 
 function canAfford(playerReources: Resources, cost: Resources): boolean {
   for (var key of Object.keys(cost) as Array<keyof Resources>) {
@@ -47,31 +48,25 @@ const useGame = () => {
     setElPos({ y: moveEvent.clientY, x: moveEvent.clientX })
   }
 
-  const handlePlaceBuilding = (rowIndex: number, columnIndex: number): BuildingInfo | undefined => {
+  const handlePlaceBuilding = (rowIndex: number, columnIndex: number) => {
     var building = selectedBuildingInfo
 
-    if (!building) {
+    if (!building) return
+
+    if (!isSpaceForBuilding(building, landGrid, rowIndex, columnIndex)) {
+      alert("no space for this building")
+    }
+
+    if (!canAfford(resources, building.cost)) {
+      alert("can not afford building")
+      setSelectedBuildingInfo(undefined)
       return
     }
 
-    // check sufficient space to allow for building
-    for (let x = 0; x < building.size; x++) {
-      for (let y = 0; y < building.size; y++) {
-        if (
-          !landGrid[rowIndex + x] ||
-          !landGrid[rowIndex + x][columnIndex + y] ||
-          landGrid[rowIndex + x][columnIndex + y].occupied
-        ) {
-          alert("sorry no space for this building")
-          return
-        }
-      }
-    }
+    setResources((old) => subtractCost(old, building!.cost))
 
     const newLandGrid = [...landGrid]
-
     let currentCell = landGrid[rowIndex][columnIndex]
-
     currentCell.buildingInfo = building // set the building info in the top left corner of range
 
     // update andjacent cells to be occupied
@@ -84,9 +79,7 @@ const useGame = () => {
     // TODO: Handle removal of a building
 
     setLandGrid(newLandGrid)
-
     setSelectedBuildingInfo(undefined)
-    return building
   }
 
   return {
