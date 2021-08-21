@@ -2,12 +2,18 @@ import React, { MouseEventHandler, useState } from "react"
 
 import { Grid } from "@material-ui/core"
 import { Building, MovableBuilding } from "./Building"
-import { BuildingInfo, Coords } from "./Models"
+import { BuildingInfo, Coords, Resources } from "./Models"
 import { Land } from "./Land"
 
 const useGame = () => {
   const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
   const [elPos, setElPos] = useState<Coords>({ x: 0, y: 0 })
+
+  const [resources, setResources] = useState<Resources>({
+    money: 1000,
+    wood: 100,
+    iron: 100,
+  } as Resources)
 
   const initialGrid: CellInfo[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) =>
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((j) => ({} as CellInfo)),
@@ -28,7 +34,17 @@ const useGame = () => {
     return building
   }
 
-  return { handleSelectBuilding, handleMouseMove, elPos, handleUnsetSelection, selectedBuildingInfo, landGrid, setLandGrid }
+  return {
+    handleSelectBuilding,
+    handleMouseMove,
+    elPos,
+    handleUnsetSelection,
+    selectedBuildingInfo,
+    landGrid,
+    setLandGrid,
+    resources,
+    setResources,
+  }
 }
 
 function App() {
@@ -36,9 +52,10 @@ function App() {
     useGame()
 
   var buildings: Array<BuildingInfo> = [
-    { color: "blue", size: 2 },
-    { color: "green", size: 2 },
-    { color: "yellow", size: 2 },
+    { name: "farm", icon: "🌽", color: "blue", size: 2, cost: { money: 100, wood: 30 } },
+    { name: "power plant", icon: "⚛", color: "green", size: 2, cost: { money: 200, iron: 50 } },
+    { name: "iron mine", icon: "🔧", color: "yellow", size: 2, cost: { money: 300, iron: 20 } },
+    { name: "university", icon: "🧪", color: "yellow", size: 2, cost: { money: 300, iron: 20 } },
   ]
 
   const handleClickApp = !!selectedBuildingInfo ? handleUnsetSelection : undefined

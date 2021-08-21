@@ -13,16 +13,24 @@ export function Building({ ref, onSelectBuilding, buildingInfo }: BuildingProps)
   }
 
   return (
-    <div
-      ref={ref}
-      onClick={handleSelectBuilding}
-      style={{
-        height: 40,
-        width: 40,
-        border: "1px solid black",
-        background: buildingInfo.color ?? "red",
-      }}
-    ></div>
+    <>
+      {buildingInfo.name}
+      <div
+        ref={ref}
+        onClick={handleSelectBuilding}
+        style={{
+          height: 20,
+          width: 20,
+          border: "1px solid black",
+          background: buildingInfo.color ?? "red",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {buildingInfo.icon}
+      </div>
+    </>
   )
 }
 

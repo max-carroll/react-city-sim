@@ -4,6 +4,15 @@ export interface Coords {
 }
 
 export interface BuildingInfo {
+  name: string
   color: string
   size: number
+  cost: Resources
+  icon: string
+}
+
+export interface Resources {
+  money?: number
+  wood?: number
+  iron?: number
 }
