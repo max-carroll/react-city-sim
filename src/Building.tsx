@@ -47,8 +47,13 @@ export function PlacedBuilding({ buildingInfo }: PlacedBuildingProps) {
         border: "1px solid black",
         position: "absolute",
         background: buildingInfo.color,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
-    ></div>
+    >
+      {buildingInfo.icon}
+    </div>
   )
 }
 
@@ -75,7 +80,12 @@ export function MovableBuilding({ buildingInfo, x, y }: MovableBuildingProps) {
         left,
         border: "1px solid black",
         background: buildingInfo.color ?? "red",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
-    ></div>
+    >
+      {buildingInfo.icon}
+    </div>
   )
 }
