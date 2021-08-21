@@ -10,6 +10,7 @@ export interface BuildingProps {
 
 export function Building({ ref, onSelectBuilding, buildingInfo }: BuildingProps) {
   const handleSelectBuilding = () => {
+    console.log("click")
     onSelectBuilding(buildingInfo)
   }
 

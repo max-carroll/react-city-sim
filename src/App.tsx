@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useState } from "react"
 
-import { Grid, Typography } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
 import { Building, MovableBuilding } from "./Building"
 import { BuildingInfo, Coords, Resources } from "./Models"
 import { Land } from "./Land"
@@ -38,6 +38,7 @@ const useGame = () => {
   )
   const [landGrid, setLandGrid] = useState<CellInfo[][]>(initialGrid)
 
+  // When selecting one from the menu
   const handleSelectBuilding = (buildingInfo: BuildingInfo) => {
     setSelectedBuildingInfo(buildingInfo)
   }
@@ -46,8 +47,44 @@ const useGame = () => {
     setElPos({ y: moveEvent.clientY, x: moveEvent.clientX })
   }
 
-  const handlePlaceBuilding = (): BuildingInfo | undefined => {
+  const handlePlaceBuilding = (rowIndex: number, columnIndex: number): BuildingInfo | undefined => {
     var building = selectedBuildingInfo
+
+    if (!building) {
+      return
+    }
+
+    // check sufficient space to allow for building
+    for (let x = 0; x < building.size; x++) {
+      for (let y = 0; y < building.size; y++) {
+        if (
+          !landGrid[rowIndex + x] ||
+          !landGrid[rowIndex + x][columnIndex + y] ||
+          landGrid[rowIndex + x][columnIndex + y].occupied
+        ) {
+          alert("sorry no space for this building")
+          return
+        }
+      }
+    }
+
+    const newLandGrid = [...landGrid]
+
+    let currentCell = landGrid[rowIndex][columnIndex]
+
+    currentCell.buildingInfo = building // set the building info in the top left corner of range
+
+    // update andjacent cells to be occupied
+    for (let x = 0; x < building.size; x++) {
+      for (let y = 0; y < building.size; y++) {
+        landGrid[rowIndex + x][columnIndex + y].occupied = true
+      }
+    }
+
+    // TODO: Handle removal of a building
+
+    setLandGrid(newLandGrid)
+
     setSelectedBuildingInfo(undefined)
     return building
   }
@@ -87,10 +124,8 @@ function App() {
     { name: "house", icon: "🏠", color: "yellow", size: 1, cost: { money: 300, iron: 20 } },
   ]
 
-  const handleClickApp = !!selectedBuildingInfo ? handlePlaceBuilding : undefined
-
   return (
-    <div className="App" onMouseMove={handleMouseMove} onClick={handleClickApp}>
+    <div className="App" onMouseMove={handleMouseMove}>
       <Grid container>
         {selectedBuildingInfo && <MovableBuilding x={elPos.x} y={elPos.y} buildingInfo={selectedBuildingInfo} />}
         <Grid item xs={4}>

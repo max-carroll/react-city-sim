@@ -1,19 +1,16 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { useState } from "react"
 import { Grid } from "@material-ui/core"
 import { CellInfo, CELL_SIZE } from "./App"
-import { BuildingInfo } from "./Models"
 import { PlacedBuilding } from "./Building"
 
 export interface CellProps {
   onClick: any
   rowIndex: number
   columnIndex: number
-  landGrid: CellInfo[][]
   cellInfo: CellInfo
-  setLandGrid: Dispatch<SetStateAction<CellInfo[][]>>
 }
 
-export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLandGrid }: CellProps) {
+export function Cell({ onClick, rowIndex, columnIndex, cellInfo }: CellProps) {
   const [active, setActive] = useState(false)
   const handleMouseEnter = () => {
     setActive(true)
@@ -21,50 +18,7 @@ export function Cell({ onClick, rowIndex, columnIndex, landGrid, cellInfo, setLa
 
   const handleClick = () => {
     console.log({ rowIndex, columnIndex, cellInfo })
-    var building: BuildingInfo = onClick()
-
-    if (!building) {
-      return
-    }
-
-    // check sufficient space to allow for building
-    for (let x = 0; x < building.size; x++) {
-      for (let y = 0; y < building.size; y++) {
-        if (
-          !landGrid[rowIndex + x] ||
-          !landGrid[rowIndex + x][columnIndex + y] ||
-          landGrid[rowIndex + x][columnIndex + y].occupied
-        ) {
-          handleNoSpace()
-          return
-        }
-      }
-    }
-
-    handleAddBuilding(building)
-  }
-
-  const handleNoSpace = () => {
-    alert("sorry no space for this building")
-  }
-
-  const handleAddBuilding = (buildingInfo: BuildingInfo) => {
-    const newLandGrid = [...landGrid]
-
-    let currentCell = landGrid[rowIndex][columnIndex]
-
-    currentCell.buildingInfo = buildingInfo // set the building info in the top left corner of range
-
-    // update andjacent cells to be occupied
-    for (let x = 0; x < buildingInfo.size; x++) {
-      for (let y = 0; y < buildingInfo.size; y++) {
-        landGrid[rowIndex + x][columnIndex + y].occupied = true
-      }
-    }
-
-    // TODO: Handle removal of a building
-
-    setLandGrid(newLandGrid)
+    onClick(rowIndex, columnIndex)
   }
 
   var color

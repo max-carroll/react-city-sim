@@ -9,15 +9,7 @@ export function Land({ landGrid, cellOnClick, setLandGrid }: LandProps): JSX.Ele
       {landGrid.map((row, i) => (
         <Row key={i}>
           {row.map((cellInfo, j) => (
-            <Cell
-              key={j}
-              onClick={cellOnClick}
-              rowIndex={i}
-              columnIndex={j}
-              landGrid={landGrid}
-              cellInfo={cellInfo}
-              setLandGrid={setLandGrid}
-            />
+            <Cell key={j} onClick={cellOnClick} rowIndex={i} columnIndex={j} cellInfo={cellInfo} />
           ))}
         </Row>
       ))}
