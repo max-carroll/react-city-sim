@@ -36,7 +36,11 @@ function App() {
             ))}
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid
+          item
+          xs={6}
+          // style={{ transform: `rotateX(60deg) rotateY(0deg) rotateZ(-45deg)` }} // creates isometric view
+        >
           {<Land landGrid={landGrid} cellOnClick={handlePlaceBuilding} setLandGrid={setLandGrid} />}
         </Grid>
         <Grid item xs={2}>
