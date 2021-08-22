@@ -5,6 +5,7 @@ import { Building, MovableBuilding } from "./Building"
 import { BuildingInfo } from "./Models"
 import { Land } from "./Land"
 import { useGame } from "./useGame"
+import { buildings } from "./Data"
 
 export const CELL_SIZE = 50
 
@@ -18,15 +19,8 @@ function App() {
     landGrid,
     setLandGrid,
     resources,
+    population,
   } = useGame()
-
-  var buildings: Array<BuildingInfo> = [
-    { name: "farm", icon: "🌽", color: "blue", size: 2, cost: { money: 100, wood: 30 } },
-    { name: "power plant", icon: "⚛", color: "green", size: 1, cost: { money: 200, iron: 50 } },
-    { name: "iron mine", icon: "🔧", color: "yellow", size: 2, cost: { money: 300, iron: 20 } },
-    { name: "university", icon: "🧪", color: "yellow", size: 2, cost: { money: 300, iron: 20 } },
-    { name: "house", icon: "🏠", color: "yellow", size: 1, cost: { money: 300, iron: 20 } },
-  ]
 
   return (
     <div className="App" onMouseMove={handleMouseMove}>

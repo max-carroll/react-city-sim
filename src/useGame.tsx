@@ -1,9 +1,11 @@
 import { MouseEventHandler, useState } from "react"
 import { BuildingInfo, Coords, Resources } from "./Models"
-import { canAfford, isSpaceForBuilding, subtractCost } from "./logic"
+import { canAfford, subtractCost } from "./logic"
 import { CellInfo } from "./App"
+import { createLandData, isSpaceForBuilding } from "./landLogic"
 
 export const useGame = () => {
+  const [population, setPopulation] = useState(400)
   const [selectedBuildingInfo, setSelectedBuildingInfo] = useState<BuildingInfo>()
   const [elPos, setElPos] = useState<Coords>({ x: 0, y: 0 })
 
@@ -13,9 +15,7 @@ export const useGame = () => {
     iron: 100,
   } as Resources)
 
-  const initialGrid: CellInfo[][] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) =>
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((j) => ({} as CellInfo)),
-  )
+  const initialGrid = createLandData()
   const [landGrid, setLandGrid] = useState<CellInfo[][]>(initialGrid)
 
   // When selecting one from the menu
@@ -34,6 +34,7 @@ export const useGame = () => {
 
     if (!isSpaceForBuilding(building, landGrid, rowIndex, columnIndex)) {
       alert("no space for this building")
+      return
     }
 
     if (!canAfford(resources, building.cost)) {
@@ -60,6 +61,8 @@ export const useGame = () => {
   }
 
   return {
+    population,
+    setPopulation,
     handleSelectBuilding,
     handleMouseMove,
     elPos,
