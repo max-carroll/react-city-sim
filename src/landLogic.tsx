@@ -23,6 +23,25 @@ export function isSpaceForBuilding(
   return true
 }
 
+export function addBuildingToLand(
+  landGrid: CellInfo[][],
+  rowIndex: number,
+  columnIndex: number,
+  building: BuildingInfo,
+): CellInfo[][] {
+  const newLandGrid = [...landGrid]
+  let currentCell = landGrid[rowIndex][columnIndex]
+  currentCell.buildingInfo = building // set the building info in the top left corner of range
+
+  // update andjacent cells to be occupied
+  for (let x = 0; x < building.size; x++) {
+    for (let y = 0; y < building.size; y++) {
+      landGrid[rowIndex + x][columnIndex + y].occupied = true
+    }
+  }
+  return newLandGrid
+}
+
 export function createLandData(): CellInfo[][] {
   var land = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((j) => ({} as CellInfo)))
 

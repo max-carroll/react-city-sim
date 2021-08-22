@@ -2,7 +2,7 @@ import { MouseEventHandler, useState } from "react"
 import { BuildingInfo, Coords, Resources } from "./Models"
 import { canAfford, subtractCost } from "./logic"
 import { CellInfo } from "./App"
-import { createLandData, isSpaceForBuilding } from "./landLogic"
+import { addBuildingToLand, createLandData, isSpaceForBuilding } from "./landLogic"
 
 export const useGame = () => {
   const [population, setPopulation] = useState(400)
@@ -43,19 +43,9 @@ export const useGame = () => {
       return
     }
 
+    const newLandGrid = addBuildingToLand(landGrid, rowIndex, columnIndex, building)
+
     setResources((old) => subtractCost(old, building!.cost))
-
-    const newLandGrid = [...landGrid]
-    let currentCell = landGrid[rowIndex][columnIndex]
-    currentCell.buildingInfo = building // set the building info in the top left corner of range
-
-    // update andjacent cells to be occupied
-    for (let x = 0; x < building.size; x++) {
-      for (let y = 0; y < building.size; y++) {
-        landGrid[rowIndex + x][columnIndex + y].occupied = true
-      }
-    }
-
     setLandGrid(newLandGrid)
     setSelectedBuildingInfo(undefined)
   }
